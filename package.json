@@ -1,12 +1,12 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "0.9.5-preview",
+  "version": "0.9.6-preview",
   "unity": "2019.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:Unity-Technologies/InputSystem.git",
-    "revision": "a37a3801e190d1eb2c871ee221ea08415cedfdd4"
+    "revision": "883b5e1b72ce4371feb499a2f2370fcc6dc3dbf5"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -37,6 +37,16 @@
       "displayName": "SimpleDemo",
       "description": "A walkthrough of a simple character controller that demonstrates several techniques for working with the input system. See the README.md file in the sample for details.",
       "path": "Samples~/SimpleDemo"
+    },
+    {
+      "displayName": "Tanks Demo",
+      "description": "The Unity Tanks demo game, converted to using the Input System package, and with a custom input binding screen. This sample is not actually part of the package, but needs to be downloaded.",
+      "path": "Samples~/TanksDemo"
+    },
+    {
+      "displayName": "Touch Samples",
+      "description": "A series of sample scenes for using touch input with the Input System package. This sample is not actually part of the package, but needs to be downloaded.",
+      "path": "Samples~/TouchSamples"
     },
     {
       "displayName": "Visualizers",
