@@ -1,12 +1,12 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "0.9.6-preview",
+  "version": "1.0.0-preview",
   "unity": "2019.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:Unity-Technologies/InputSystem.git",
-    "revision": "883b5e1b72ce4371feb499a2f2370fcc6dc3dbf5"
+    "revision": "3a5d7d44a448dd2c0724778bb763f7d85c40e5e0"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -24,17 +24,27 @@
   },
   "samples": [
     {
+      "displayName": "Custom Binding Composite",
+      "description": "Shows how to implement a custom composite binding.",
+      "path": "Samples~/CustomComposite"
+    },
+    {
+      "displayName": "Custom Device",
+      "description": "Shows how to implement a custom input device.",
+      "path": "Samples~/CustomDevice"
+    },
+    {
       "displayName": "InputDeviceTester",
       "description": "A scene containing UI to visualize the controls on various supported input devices.",
       "path": "Samples~/InputDeviceTester"
     },
     {
-      "displayName": "On-Screen Controls Sample",
+      "displayName": "On-Screen Controls",
       "description": "Demonstrates a simple setup for an on-screen joystick.",
       "path": "Samples~/OnScreenControls"
     },
     {
-      "displayName": "SimpleDemo",
+      "displayName": "Simple Demo",
       "description": "A walkthrough of a simple character controller that demonstrates several techniques for working with the input system. See the README.md file in the sample for details.",
       "path": "Samples~/SimpleDemo"
     },

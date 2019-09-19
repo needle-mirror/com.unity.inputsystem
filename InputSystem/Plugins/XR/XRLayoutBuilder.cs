@@ -1,3 +1,4 @@
+#if UNITY_INPUT_SYSTEM_ENABLE_XR
 using System;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.LowLevel;
@@ -8,17 +9,13 @@ using UnityEngine.XR;
 
 namespace UnityEngine.InputSystem.XR
 {
-    [Serializable]
-    class XRLayoutBuilder
+    internal class XRLayoutBuilder
     {
-        [SerializeField]
-        string parentLayout;
-        [SerializeField]
-        string interfaceName;
-        [SerializeField]
-        XRDeviceDescriptor descriptor;
+        private string parentLayout;
+        private string interfaceName;
+        private XRDeviceDescriptor descriptor;
 
-        static uint GetSizeOfFeature(XRFeatureDescriptor featureDescriptor)
+        private static uint GetSizeOfFeature(XRFeatureDescriptor featureDescriptor)
         {
             switch (featureDescriptor.featureType)
             {
@@ -34,19 +31,25 @@ namespace UnityEngine.InputSystem.XR
                     return sizeof(float) * 3;
                 case FeatureType.Rotation:
                     return sizeof(float) * 4;
+                case FeatureType.Hand:
+                    return sizeof(uint) * 26;
+                case FeatureType.Bone:
+                    return sizeof(uint) + (sizeof(float) * 3) + (sizeof(float) * 4);
+                case FeatureType.Eyes:
+                    return (sizeof(float) * 3) * 3 + ((sizeof(float) * 4) * 2) + (sizeof(float) * 2);
                 case FeatureType.Custom:
                     return featureDescriptor.customSize;
             }
             return 0;
         }
 
-        static string SanitizeName(string originalName)
+        private static string SanitizeName(string originalName)
         {
-            int stringLength = originalName.Length;
+            var stringLength = originalName.Length;
             var sanitizedName = new StringBuilder(stringLength);
-            for (int i = 0; i < stringLength; i++)
+            for (var i = 0; i < stringLength; i++)
             {
-                char letter = originalName[i];
+                var letter = originalName[i];
                 if (char.IsUpper(letter) || char.IsLower(letter) || char.IsDigit(letter))
                 {
                     sanitizedName.Append(letter);
@@ -55,7 +58,8 @@ namespace UnityEngine.InputSystem.XR
             return sanitizedName.ToString();
         }
 
-        internal static string OnFindLayoutForDevice(int deviceId, ref InputDeviceDescription description, string matchedLayout, IInputRuntime runtime)
+        internal static string OnFindLayoutForDevice(ref InputDeviceDescription description, string matchedLayout,
+            InputDeviceExecuteCommandDelegate executeCommandDelegate)
         {
             // If the device isn't a XRInput, we're not interested.
             if (description.interfaceName != XRUtilities.InterfaceCurrent && description.interfaceName != XRUtilities.InterfaceV1)
@@ -89,28 +93,28 @@ namespace UnityEngine.InputSystem.XR
             if (string.IsNullOrEmpty(matchedLayout))
             {
 #if UNITY_2019_3_OR_NEWER
-                const InputDeviceCharacteristics controllerCharacteristics = (InputDeviceCharacteristics)(InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller);
+                const InputDeviceCharacteristics controllerCharacteristics = InputDeviceCharacteristics.HeldInHand | InputDeviceCharacteristics.Controller;
                 if ((deviceDescriptor.characteristics & InputDeviceCharacteristics.HeadMounted) != 0)
                     matchedLayout = "XRHMD";
                 else if ((deviceDescriptor.characteristics & controllerCharacteristics) == controllerCharacteristics)
                     matchedLayout = "XRController";
-#else
+#else //UNITY_2019_3_OR_NEWER
                 if (deviceDescriptor.deviceRole == InputDeviceRole.LeftHanded || deviceDescriptor.deviceRole == InputDeviceRole.RightHanded)
                     matchedLayout = "XRController";
                 else if (deviceDescriptor.deviceRole == InputDeviceRole.Generic)
                     matchedLayout = "XRHMD";
-#endif
+#endif //UNITY_2019_3_OR_NEWER
             }
 
-            string layoutName = null;
+            string layoutName;
             if (string.IsNullOrEmpty(description.manufacturer))
             {
-                layoutName = string.Format("{0}::{1}", SanitizeName(description.interfaceName),
-                    SanitizeName(description.product));
+                layoutName = $"{SanitizeName(description.interfaceName)}::{SanitizeName(description.product)}";
             }
             else
             {
-                layoutName = string.Format("{0}::{1}::{2}", SanitizeName(description.interfaceName), SanitizeName(description.manufacturer), SanitizeName(description.product));
+                layoutName =
+                    $"{SanitizeName(description.interfaceName)}::{SanitizeName(description.manufacturer)}::{SanitizeName(description.product)}";
             }
 
             var layout = new XRLayoutBuilder { descriptor = deviceDescriptor, parentLayout = matchedLayout, interfaceName = description.interfaceName };
@@ -119,19 +123,19 @@ namespace UnityEngine.InputSystem.XR
             return layoutName;
         }
 
-        string ConvertPotentialAliasToName(InputControlLayout layout, string nameOrAlias)
+        private static string ConvertPotentialAliasToName(InputControlLayout layout, string nameOrAlias)
         {
-            InternedString internedNameOrAlias = new InternedString(nameOrAlias);
-            ReadOnlyArray<InputControlLayout.ControlItem> controls = layout.controls;
-            for (int i = 0; i < controls.Count; i++)
+            var internedNameOrAlias = new InternedString(nameOrAlias);
+            var controls = layout.controls;
+            for (var i = 0; i < controls.Count; i++)
             {
-                InputControlLayout.ControlItem controlItem = controls[i];
+                var controlItem = controls[i];
 
                 if (controlItem.name == internedNameOrAlias)
                     return nameOrAlias;
 
-                ReadOnlyArray<InternedString> aliases = controlItem.aliases;
-                for (int j = 0; j < aliases.Count; j++)
+                var aliases = controlItem.aliases;
+                for (var j = 0; j < aliases.Count; j++)
                 {
                     if (aliases[j] == nameOrAlias)
                         return controlItem.name.ToString();
@@ -140,7 +144,7 @@ namespace UnityEngine.InputSystem.XR
             return nameOrAlias;
         }
 
-        internal InputControlLayout Build()
+        private InputControlLayout Build()
         {
             var builder = new InputControlLayout.Builder
             {
@@ -149,7 +153,9 @@ namespace UnityEngine.InputSystem.XR
                 updateBeforeRender = true
             };
 
-            var inherittedLayout = InputSystem.LoadLayout(parentLayout);
+            var inheritedLayout = !string.IsNullOrEmpty(parentLayout)
+                ? InputSystem.LoadLayout(parentLayout)
+                : null;
 
             var currentUsages = new List<string>();
 
@@ -167,10 +173,10 @@ namespace UnityEngine.InputSystem.XR
                     }
                 }
 
-                string featureName = feature.name;
+                var featureName = feature.name;
                 featureName = SanitizeName(featureName);
-                if (inherittedLayout != null)
-                    featureName = ConvertPotentialAliasToName(inherittedLayout, featureName);
+                if (inheritedLayout != null)
+                    featureName = ConvertPotentialAliasToName(inheritedLayout, featureName);
 
                 featureName = featureName.ToLower();
 
@@ -246,6 +252,26 @@ namespace UnityEngine.InputSystem.XR
                             .WithUsages(currentUsages);
                         break;
                     }
+                    case FeatureType.Hand:
+                    {
+                        break;
+                    }
+                    case FeatureType.Bone:
+                    {
+                        builder.AddControl(featureName)
+                            .WithLayout("Bone")
+                            .WithByteOffset(currentOffset)
+                            .WithUsages(currentUsages);
+                        break;
+                    }
+                    case FeatureType.Eyes:
+                    {
+                        builder.AddControl(featureName)
+                            .WithLayout("Eyes")
+                            .WithByteOffset(currentOffset)
+                            .WithUsages(currentUsages);
+                        break;
+                    }
                 }
                 currentOffset += nextOffset;
             }
@@ -254,3 +280,4 @@ namespace UnityEngine.InputSystem.XR
         }
     }
 }
+#endif //UNITY_INPUT_SYSTEM_ENABLE_XR
