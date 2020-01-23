@@ -1,12 +1,12 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.4",
   "unity": "2019.1",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Unity-Technologies/InputSystem.git",
-    "revision": "1a22faf98a0be83d8d0df97935b6ceea6835ae2f"
+    "url": "https://github.com/Unity-Technologies/InputSystem.git",
+    "revision": "175eee8e35e0d808ac0decdc8c21e7f0cc708cd1"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -44,14 +44,29 @@
       "path": "Samples~/EditorWindowDemo"
     },
     {
+      "displayName": "In-Game Hints",
+      "description": "Demonstrates how to create in-game hints in the UI which reflect current bindings and active control schemes.",
+      "path": "Samples~/InGameHints"
+    },
+    {
       "displayName": "InputDeviceTester",
       "description": "A scene containing UI to visualize the controls on various supported input devices.",
       "path": "Samples~/InputDeviceTester"
     },
     {
+      "displayName": "Input Recorder",
+      "description": "Shows how to capture and replay input events. Also useful by itself to debug input event sequences.",
+      "path": "Samples~/InputRecorder"
+    },
+    {
       "displayName": "On-Screen Controls",
       "description": "Demonstrates a simple setup for an on-screen joystick.",
       "path": "Samples~/OnScreenControls"
+    },
+    {
+      "displayName": "Rebinding UI",
+      "description": "An example UI component that demonstrates how to create UI for rebinding actions.",
+      "path": "Samples~/RebindingUI"
     },
     {
       "displayName": "Simple Demo",
