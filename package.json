@@ -1,12 +1,13 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.0.0-preview.4",
+  "version": "1.0.0-preview.5",
   "unity": "2019.1",
   "repository": {
+    "footprint": "eef2edc406261cf6293acd8e69b61f92cc61eae7",
     "type": "git",
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
-    "revision": "175eee8e35e0d808ac0decdc8c21e7f0cc708cd1"
+    "revision": "8f61b4ba7176b0241f868bad0c3bac631e8d8b25"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -44,6 +45,11 @@
       "path": "Samples~/EditorWindowDemo"
     },
     {
+      "displayName": "Gamepad Mouse Cursor",
+      "description": "An example that shows how to use the gamepad for driving a mouse cursor for use with UIs.",
+      "path": "Samples~/GamepadMouseCursor"
+    },
+    {
       "displayName": "In-Game Hints",
       "description": "Demonstrates how to create in-game hints in the UI which reflect current bindings and active control schemes.",
       "path": "Samples~/InGameHints"
@@ -72,6 +78,11 @@
       "displayName": "Simple Demo",
       "description": "A walkthrough of a simple character controller that demonstrates several techniques for working with the input system. See the README.md file in the sample for details.",
       "path": "Samples~/SimpleDemo"
+    },
+    {
+      "displayName": "Simple Multiplayer",
+      "description": "Demonstrates how to set up a simple local multiplayer scenario.",
+      "path": "Samples~/SimpleMultiplayer"
     },
     {
       "displayName": "Tanks Demo",
