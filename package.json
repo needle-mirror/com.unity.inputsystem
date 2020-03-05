@@ -1,13 +1,13 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.0.0-preview.5",
+  "version": "1.0.0-preview.6",
   "unity": "2019.1",
   "repository": {
-    "footprint": "eef2edc406261cf6293acd8e69b61f92cc61eae7",
+    "footprint": "c0e72206c968a3983f445711b4cca00b8e98f91c",
     "type": "git",
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
-    "revision": "8f61b4ba7176b0241f868bad0c3bac631e8d8b25"
+    "revision": "7320077bdaa48fb7d63edaa66a246694a96a6bb7"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
