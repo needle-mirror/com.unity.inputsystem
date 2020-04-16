@@ -1,13 +1,13 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.0.0-preview.6",
+  "version": "1.0.0-preview.7",
   "unity": "2019.1",
   "repository": {
-    "footprint": "c0e72206c968a3983f445711b4cca00b8e98f91c",
+    "footprint": "ed04a58c1789ae2f34a9d29017aee30604fb1e32",
     "type": "git",
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
-    "revision": "7320077bdaa48fb7d63edaa66a246694a96a6bb7"
+    "revision": "dc14c49beb7e3577bbf5f731cc0244cfe70b17a3"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -20,9 +20,6 @@
     "vr",
     "xr"
   ],
-  "dependencies": {
-    "com.unity.ugui": "1.0.0"
-  },
   "samples": [
     {
       "displayName": "Custom Binding Composite",
@@ -38,11 +35,6 @@
       "displayName": "Custom Device Usages",
       "description": "Shows how to tag devices with custom usage strings that can be used, for example, to distinguish multiple instances of the same type of device (e.g. 'Gamepad') based on how the device is used (e.g. 'Player1' vs 'Player2' or 'LeftHand' vs 'RightHand').",
       "path": "Samples~/CustomDeviceUsages"
-    },
-    {
-      "displayName": "EditorWindow Demo",
-      "description": "A simple example of how to use the input system from within EditorWindow code.",
-      "path": "Samples~/EditorWindowDemo"
     },
     {
       "displayName": "Gamepad Mouse Cursor",
