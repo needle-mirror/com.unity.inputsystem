@@ -1,13 +1,12 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.0.0-preview.7",
+  "version": "1.0.0",
   "unity": "2019.1",
   "repository": {
-    "footprint": "ed04a58c1789ae2f34a9d29017aee30604fb1e32",
     "type": "git",
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
-    "revision": "dc14c49beb7e3577bbf5f731cc0244cfe70b17a3"
+    "revision": "0617549352dbfae87698b044d343b97727dd6581"
   },
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -20,6 +19,9 @@
     "vr",
     "xr"
   ],
+  "upmCi": {
+    "footprint": "f6129c6fd91afee16e3739ad949e5e38c7bd908e"
+  },
   "samples": [
     {
       "displayName": "Custom Binding Composite",
