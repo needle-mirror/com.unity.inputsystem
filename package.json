@@ -1,13 +1,8 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.0.2",
-  "unity": "2019.1",
-  "repository": {
-    "url": "https://github.com/Unity-Technologies/InputSystem.git",
-    "type": "git",
-    "revision": "041def76515febb36a83d1f928cfb7aefb85176c"
-  },
+  "version": "1.1.0-pre.5",
+  "unity": "2019.4",
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
     "input",
@@ -19,8 +14,16 @@
     "vr",
     "xr"
   ],
+  "dependencies": {
+    "com.unity.modules.uielements": "1.0.0"
+  },
   "upmCi": {
-    "footprint": "16cf76fdb147ffbf6809fd1ff7d082bb6275010d"
+    "footprint": "3e703941c068e66427af80770640196a905fdd4a"
+  },
+  "repository": {
+    "url": "https://github.com/Unity-Technologies/InputSystem.git",
+    "type": "git",
+    "revision": "235baf96acbccfbca3f8e6543cc535d861c20db4"
   },
   "samples": [
     {
@@ -77,11 +80,6 @@
       "displayName": "Simple Multiplayer",
       "description": "Demonstrates how to set up a simple local multiplayer scenario.",
       "path": "Samples~/SimpleMultiplayer"
-    },
-    {
-      "displayName": "Tanks Demo",
-      "description": "The Unity Tanks demo game, converted to using the Input System package, and with a custom input binding screen. This sample is not actually part of the package, but needs to be downloaded.",
-      "path": "Samples~/TanksDemo"
     },
     {
       "displayName": "Touch Samples",

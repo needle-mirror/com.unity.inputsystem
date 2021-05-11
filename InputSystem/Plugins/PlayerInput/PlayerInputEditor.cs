@@ -133,7 +133,7 @@ namespace UnityEngine.InputSystem.Editor
             #if UNITY_INPUT_SYSTEM_ENABLE_UI
             // UI config section.
             if (m_UIPropertyText == null)
-                m_UIPropertyText = EditorGUIUtility.TrTextContent("UI Input Module", m_UIInputModuleProperty.tooltip);
+                m_UIPropertyText = EditorGUIUtility.TrTextContent("UI Input Module", m_UIInputModuleProperty.GetTooltip());
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(m_UIInputModuleProperty, m_UIPropertyText);
             if (EditorGUI.EndChangeCheck())
@@ -153,7 +153,7 @@ namespace UnityEngine.InputSystem.Editor
 
             // Camera section.
             if (m_CameraPropertyText == null)
-                m_CameraPropertyText = EditorGUIUtility.TrTextContent("Camera", m_CameraProperty.tooltip);
+                m_CameraPropertyText = EditorGUIUtility.TrTextContent("Camera", m_CameraProperty.GetTooltip());
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(m_CameraProperty, m_CameraPropertyText);
             if (EditorGUI.EndChangeCheck())
@@ -269,25 +269,20 @@ namespace UnityEngine.InputSystem.Editor
 
                     // Write it out and tell the asset DB to pick it up.
                     File.WriteAllText(fileName, newActionsText);
-                    AssetDatabase.Refresh();
 
-                    // Need to wait for import to happen. On next editor update, wire the asset
-                    // into our PlayerInput component and bring up the action editor.
-                    EditorApplication.delayCall +=
-                        () =>
-                    {
-                        var relativePath = "Assets/" + fileName.Substring(Application.dataPath.Length + 1);
+                    // Import the new asset
+                    var relativePath = "Assets/" + fileName.Substring(Application.dataPath.Length + 1);
+                    AssetDatabase.ImportAsset(relativePath, ImportAssetOptions.ForceSynchronousImport);
 
-                        // Load imported object.
-                        var importedObject = AssetDatabase.LoadAssetAtPath<InputActionAsset>(relativePath);
+                    // Load imported object.
+                    var importedObject = AssetDatabase.LoadAssetAtPath<InputActionAsset>(relativePath);
 
-                        // Set it on the PlayerInput component.
-                        m_ActionsProperty.objectReferenceValue = importedObject;
-                        serializedObject.ApplyModifiedProperties();
+                    // Set it on the PlayerInput component.
+                    m_ActionsProperty.objectReferenceValue = importedObject;
+                    serializedObject.ApplyModifiedProperties();
 
-                        // Open the asset.
-                        AssetDatabase.OpenAsset(importedObject);
-                    };
+                    // Open the asset.
+                    AssetDatabase.OpenAsset(importedObject);
                 }
             }
             EditorGUILayout.EndHorizontal();

@@ -25,4 +25,4 @@ namespace UnityEngine.InputSystem.XR.Haptics
         }
     }
 }
-#endif // (UNITY_INPUT_SYSTEM_ENABLE_XR && ENABLE_VR) || PACKAGE_DOCS_GENERATION
+#endif // (UNITY_INPUT_SYSTEM_ENABLE_XR && ENABLE_VR) || PACKAGE_DOCS_GENERA

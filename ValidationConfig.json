@@ -11,6 +11,13 @@
     },
     "FileContentKeywordValidation":
     {
-        "TimeoutMins": 10.0
+        "Keywords":
+        [
+            {
+                "Targets": "+Switch",
+                "Files": [ "InputSystem/Plugins/Switch/SwitchSupportHID.cs" ],
+                "Patterns": [ "UnityEngine\\.InputSystem\\.Switch" ]
+            }
+        ]
     }
 }

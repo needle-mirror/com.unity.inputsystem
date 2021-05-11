@@ -1,7 +1,9 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -19,6 +21,8 @@ using UnityEngine.InputSystem.Utilities;
 ////TODO: add context menu items for reordering action and binging entries (like "Move Up" and "Move Down")
 
 ////FIXME: context menu cannot be brought up when there's no items in the tree
+
+////FIXME: RMB context menu for actions displays composites that aren't applicable to the action
 
 namespace UnityEngine.InputSystem.Editor
 {
@@ -156,6 +160,15 @@ namespace UnityEngine.InputSystem.Editor
             if (m_ItemFilterCriteria.Any(x => x.Matches(item) == FilterCriterion.Match.Failure))
             {
                 item.parent.children.Remove(item);
+
+                // Add to list of hidden children.
+                if (item.parent is ActionTreeItemBase parent)
+                {
+                    if (parent.m_HiddenChildren == null)
+                        parent.m_HiddenChildren = new List<ActionTreeItemBase>();
+                    parent.m_HiddenChildren.Add(item);
+                }
+
                 return;
             }
 
@@ -497,9 +510,20 @@ namespace UnityEngine.InputSystem.Editor
                 }
 
                 // Paste items onto target.
-                PasteItems(copyBuffer.ToString(),
-                    new[] { new InsertLocation {item = target, childIndex = childIndex} },
-                    assignNewIDs: assignNewIDs);
+                var oldBindingGroupForNewBindings = bindingGroupForNewBindings;
+                try
+                {
+                    // With drag&drop, preserve binding groups.
+                    bindingGroupForNewBindings = null;
+
+                    PasteItems(copyBuffer.ToString(),
+                        new[] { new InsertLocation { item = target, childIndex = childIndex } },
+                        assignNewIDs: assignNewIDs);
+                }
+                finally
+                {
+                    bindingGroupForNewBindings = oldBindingGroupForNewBindings;
+                }
 
                 DragAndDrop.AcceptDrag();
             }
@@ -517,6 +541,7 @@ namespace UnityEngine.InputSystem.Editor
         public const string k_DuplicateCommand = "Duplicate";
         public const string k_CutCommand = "Cut";
         public const string k_DeleteCommand = "Delete";
+        public const string k_SoftDeleteCommand = "SoftDelete";
 
         public void HandleCopyPasteCommandEvent(Event uiEvent)
         {
@@ -528,6 +553,7 @@ namespace UnityEngine.InputSystem.Editor
                     case k_CutCommand:
                     case k_DuplicateCommand:
                     case k_DeleteCommand:
+                    case k_SoftDeleteCommand:
                         if (HasSelection())
                             uiEvent.Use();
                         break;
@@ -557,6 +583,7 @@ namespace UnityEngine.InputSystem.Editor
                         DuplicateSelection();
                         break;
                     case k_DeleteCommand:
+                    case k_SoftDeleteCommand:
                         DeleteDataOfSelectedItems();
                         break;
                     default:
@@ -639,14 +666,8 @@ namespace UnityEngine.InputSystem.Editor
             buffer.Append(item.property.CopyToJson(ignoreObjectReferences: true));
             buffer.Append(k_EndOfTransmissionBlock);
 
-            ////FIXME: Relying on serialization this way to snapshot an entire object has the downside that
-            ////       these items work differently for copy-paste than others. For example, copying an action
-            ////       map will always copy its entire data, regardless of the current filter state. In contrast,
-            ////       copying an action will only copy the bindings that are visible according to the current
-            ////       view filter. This could be fixed by removing serializedDataIncludesChildren and allowing
-            ////       CopyToJson() to optionally ignore child properties.
-            if (!item.serializedDataIncludesChildren && item.hasChildren)
-                foreach (var child in item.children.OfType<ActionTreeItemBase>())
+            if (!item.serializedDataIncludesChildren && item.hasChildrenIncludingHidden)
+                foreach (var child in item.childrenIncludingHidden)
                     CopyItemData(child, buffer);
         }
 
@@ -864,7 +885,7 @@ namespace UnityEngine.InputSystem.Editor
 
         #region Context Menus
 
-        public void BuildContextMenuFor(Type itemType, GenericMenu menu, bool multiSelect)
+        public void BuildContextMenuFor(Type itemType, GenericMenu menu, bool multiSelect, ActionTreeItem actionItem = null)
         {
             var canRename = false;
             if (itemType == typeof(ActionMapTreeItem))
@@ -874,7 +895,7 @@ namespace UnityEngine.InputSystem.Editor
             else if (itemType == typeof(ActionTreeItem))
             {
                 canRename = true;
-                BuildMenuToAddBindings(menu);
+                BuildMenuToAddBindings(menu, actionItem);
             }
             else if (itemType == typeof(CompositeBindingTreeItem))
             {
@@ -927,6 +948,12 @@ namespace UnityEngine.InputSystem.Editor
             foreach (var compositeName in InputBindingComposite.s_Composites.internedNames.Where(x =>
                 !InputBindingComposite.s_Composites.aliases.Contains(x)).OrderBy(x => x))
             {
+                // Skip composites we should hide from the UI.
+                var compositeType = InputBindingComposite.s_Composites.LookupTypeRegistration(compositeName);
+                var designTimeVisible = compositeType.GetCustomAttribute<DesignTimeVisibleAttribute>();
+                if (designTimeVisible != null && !designTimeVisible.Visible)
+                    continue;
+
                 // If the action is expected a specific control layout, check
                 // whether the value type use by the composite matches that of
                 // the layout.
@@ -938,8 +965,9 @@ namespace UnityEngine.InputSystem.Editor
                         continue;
                 }
 
-                var niceName = ObjectNames.NicifyVariableName(compositeName);
-                menu.AddItem(new GUIContent($"Add {niceName} Composite"), false,
+                var displayName = compositeType.GetCustomAttribute<DisplayNameAttribute>();
+                var niceName = displayName != null ? displayName.DisplayName.Replace('/', '\\') : ObjectNames.NicifyVariableName(compositeName) + " Composite";
+                menu.AddItem(new GUIContent($"Add {niceName}"), false,
                     () =>
                     {
                         if (actionItem != null)
@@ -960,7 +988,10 @@ namespace UnityEngine.InputSystem.Editor
             if (mixedSelection)
                 BuildContextMenuFor(typeof(ActionTreeItemBase), menu, true);
             else
-                BuildContextMenuFor(GetSelectedItems().First().GetType(), menu, GetSelection().Count > 1);
+            {
+                var item = GetSelectedItems().First();
+                BuildContextMenuFor(item.GetType(), menu, GetSelection().Count > 1, actionItem: item as ActionTreeItem);
+            }
             menu.ShowAsContext();
         }
 
@@ -1315,10 +1346,11 @@ namespace UnityEngine.InputSystem.Editor
         public float foldoutOffset { get; set; }
 
         public Action<SerializedProperty> onHandleAddNewAction { get; set; }
-        public string title
+
+        public (string, string) title
         {
-            get => m_Title?.text;
-            set => m_Title = new GUIContent(value);
+            get => (m_Title?.text, m_Title?.tooltip);
+            set => m_Title = new GUIContent(value.Item1, value.Item2);
         }
 
         public new float totalHeight
