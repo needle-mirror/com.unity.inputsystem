@@ -1,7 +1,7 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.1.0-pre.5",
+  "version": "1.1.0-pre.6",
   "unity": "2019.4",
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -18,12 +18,12 @@
     "com.unity.modules.uielements": "1.0.0"
   },
   "upmCi": {
-    "footprint": "3e703941c068e66427af80770640196a905fdd4a"
+    "footprint": "452b473986aaa3ef7cfae5a7b951e66c28223026"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
     "type": "git",
-    "revision": "235baf96acbccfbca3f8e6543cc535d861c20db4"
+    "revision": "4c7b1dad3c6ad5941f485eec093467c7b14e3bf6"
   },
   "samples": [
     {
@@ -85,6 +85,11 @@
       "displayName": "Touch Samples",
       "description": "A series of sample scenes for using touch input with the Input System package. This sample is not actually part of the package, but needs to be downloaded.",
       "path": "Samples~/TouchSamples"
+    },
+    {
+      "displayName": "UI vs. Game Input",
+      "description": "An example that shows how to deal with ambiguities that may arrise when overlaying interactive UI elements on top of a game scene.",
+      "path": "Samples~/UIvsGameInput"
     },
     {
       "displayName": "Visualizers",
