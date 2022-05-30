@@ -1,7 +1,7 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.3.0",
+  "version": "1.4.1",
   "unity": "2019.4",
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -17,13 +17,16 @@
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0"
   },
+  "_upm": {
+    "changelog": "### Fixed\n- Fixed composite touchscreen controls were not firing an action if screen was touched before enabling the action ([case ISXB-98](https://jira.unity3d.com/browse/ISXB-98))."
+  },
   "upmCi": {
-    "footprint": "9b3507e700a475d3fc7c6406be352fd3f6b2e8e9"
+    "footprint": "ddd60d3a3d5ec729720179c0fbfefeec480eb64c"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
     "type": "git",
-    "revision": "76d3fd182183dff9e9793431de614fd1e69e363c"
+    "revision": "640348c45464bc94b38877d83653512da2c90453"
   },
   "samples": [
     {
@@ -90,6 +93,11 @@
       "displayName": "UI vs. Game Input",
       "description": "An example that shows how to deal with ambiguities that may arrise when overlaying interactive UI elements on top of a game scene.",
       "path": "Samples~/UIvsGameInput"
+    },
+    {
+      "displayName": "Unity Remote",
+      "description": "An example with a simple scene for trying out the Unity Remote app.",
+      "path": "Samples~/UnityRemote"
     },
     {
       "displayName": "Visualizers",
