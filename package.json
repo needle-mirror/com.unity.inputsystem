@@ -1,7 +1,7 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "unity": "2019.4",
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -17,16 +17,13 @@
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0"
   },
-  "_upm": {
-    "changelog": "### Fixed\n- Fixed composite touchscreen controls were not firing an action if screen was touched before enabling the action ([case ISXB-98](https://jira.unity3d.com/browse/ISXB-98))."
-  },
   "upmCi": {
-    "footprint": "ddd60d3a3d5ec729720179c0fbfefeec480eb64c"
+    "footprint": "e160a343267e1e2f5c669cfac97fc992f6e44ea9"
   },
   "repository": {
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
     "type": "git",
-    "revision": "640348c45464bc94b38877d83653512da2c90453"
+    "revision": "631623e8dc57356af6692b9ef7822333edf45f37"
   },
   "samples": [
     {
