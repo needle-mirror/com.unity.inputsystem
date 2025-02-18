@@ -1,7 +1,7 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "unity": "2021.3",
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -18,16 +18,16 @@
     "com.unity.modules.uielements": "1.0.0"
   },
   "_upm": {
-    "changelog": "### Fixed\n- Fixed an issue where the prompt to enable the InputSystem backends would interrupt the import of large assets.\n- Fixed Cut Mode for Action Maps and Actions to make renaming disabled. [ISXB-1155](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1155)\n- Fixed GamepadButton.LeftTrigger and GamepadButton.RightTrigger enum values not matching displayed dropdown values in editor when using GamepadButtonPropertyDrawer [ISXB-1270](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1270).\n- Fixed an issue causing InvalidOperationException when entering playmode with domain reload disabled. [ISXB-1208](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1208).\n- Fixed an issue where compiling Addressables with Input System package present would result in failed compilation due to `IInputAnalytic.TryGatherData` not being defined [ISXB-1203](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1203).\n- Pinned Touch Samples sample package dependencies to avoid errors with Cinemachine 3.x and Probuilder 6.x. [ISXB-1245](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1245)\n- Fixed an issue where dropdown menu for Path in Input Actions Editor could not be selected from any button position. [ISXB-1309](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1309)"
+    "changelog": "### Fixed\n- Fixed a problem with the logic to get the active player settings object that cause an infinit reimport loop. [ISXB-1430](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-96793)\n- Fixed an issue where removing a newly created action in the Asset Editor would cause an exception. [UUM-95693](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-95693)\n- Fixed arrow key navigation of Input Actions after Action rename. [ISXB-1024](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1024)\n- Fixed gamepad navigation in UI Toolkit TextField when using InputSystemUIInputModule. [UUM-77364](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-77364)\n- Fixed issue where asset editor window splitter positions were not persisted [ISXB-1316]\n\n### Changed\n- Changed default input action asset name from New Controls to New Actions."
   },
   "upmCi": {
-    "footprint": "3a0d73acc9c7fe212da8a43e5de1ae5841073bd9"
+    "footprint": "bcc8c63256b50b7e6b36216c613c47b96eec4b25"
   },
   "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.inputsystem@1.13/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
     "type": "git",
-    "revision": "6893aa60ba9ca26d54487167e90481283767ed1d"
+    "revision": "b026bb79971869f971db20399152e375b31bae01"
   },
   "samples": [
     {
