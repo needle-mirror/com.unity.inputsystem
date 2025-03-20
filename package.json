@@ -1,7 +1,7 @@
 {
   "name": "com.unity.inputsystem",
   "displayName": "Input System",
-  "version": "1.13.1",
+  "version": "1.14.0",
   "unity": "2021.3",
   "description": "A new input system which can be used as a more extensible and customizable alternative to Unity's classic input system in UnityEngine.Input.",
   "keywords": [
@@ -18,16 +18,16 @@
     "com.unity.modules.uielements": "1.0.0"
   },
   "_upm": {
-    "changelog": "### Fixed\n- Fixed a problem with the logic to get the active player settings object that cause an infinit reimport loop. [ISXB-1430](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-96793)\n- Fixed an issue where removing a newly created action in the Asset Editor would cause an exception. [UUM-95693](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-95693)\n- Fixed arrow key navigation of Input Actions after Action rename. [ISXB-1024](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1024)\n- Fixed gamepad navigation in UI Toolkit TextField when using InputSystemUIInputModule. [UUM-77364](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-77364)\n- Fixed issue where asset editor window splitter positions were not persisted [ISXB-1316]\n\n### Changed\n- Changed default input action asset name from New Controls to New Actions."
+    "changelog": "### Fixed\n- Fixed an issue where all action maps were enabled initially for project wide actions, which overrode the PlayerInput action map configuration. [ISXB-920](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-920)\n- Fixed an issue where ButtonStates are not fully updated when switching SingleUnifiedPointer. [ISXB-1356](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-1356)\n- Fixed errors when pasting composite parts into non-composites. [ISXB-757](https://issuetracker.unity3d.com/product/unity/issues/guid/ISXB-757)\n\n### Changed\n- Changed enum value `Key.IMESelected` to obsolete which was not a real key. Please use the ButtonControl `imeSelected`.\n\n### Added\n- Added support of F13-F24 keys. [UUM-44328](https://issuetracker.unity3d.com/product/unity/issues/guid/UUM-44328)"
   },
   "upmCi": {
-    "footprint": "bcc8c63256b50b7e6b36216c613c47b96eec4b25"
+    "footprint": "502fede172521cf7f3e4563d5c450673c67aebd9"
   },
-  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.inputsystem@1.13/manual/index.html",
+  "documentationUrl": "https://docs.unity3d.com/Packages/com.unity.inputsystem@1.14/manual/index.html",
   "repository": {
     "url": "https://github.com/Unity-Technologies/InputSystem.git",
     "type": "git",
-    "revision": "b026bb79971869f971db20399152e375b31bae01"
+    "revision": "5ac6cb14e03a4e4e5faf7bd8fbd915105ae3ff55"
   },
   "samples": [
     {
